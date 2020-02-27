@@ -15,15 +15,27 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 Official documentation [is located here](https://laravel.com/docs/homestead).
 
-## Developing Homestead
+## Installation Instructions:
 
-To keep any in-development changes separate from other Homestead installations, create a new project and install
-Homestead from composer, forcing it to use a git checkout.
+### Prerequisites:
 
-```
-$ mkdir homestead && \
-    cd homestead && \
-    composer require --prefer-source laravel/homestead:dev-master
-```
+These applications should be installed and available in your terminal's $PATH
 
-After it's complete, `vendor/laravel/homestead` will be a git checkout and can be used normally.
+- NPM &amp; Yarn
+- Vagrant
+- Virtual Box
+
+### Steps:
+
+1. Run `vagrant plugin install vagrant-hostsupdater` (If the plugin is not already installed)
+1. Run `vagrant box add laravel/homestead`
+2. Run `git clone https://github.com/CHHJIT/homestead.git` (It is recommend to keep this wherever you keep your other CHHJ repos)
+3. Run `cd homestead`
+4. Run `bash init.sh` (or `init.bat` on windows)
+5. Configure the `Homestead.yaml` file
+6. Run `vagrant up`
+7. Run `vagrant ssh -c "sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt" > ./certs/ca.homestead.crt`
+8. Go to the `/certs` directory and double click the `ca.homestead.crt` file to add it to your machine. **MAKE SURE** that the certificate is listed as a trusted certificate. (By default is not trusted)
+9. Check https://hunkware-frontend.test/hunkware-frontend/dashboard-operations
+10. Check https://hunkware-api.test/v1/info
+
