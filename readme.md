@@ -7,7 +7,7 @@
 <a href="https://packagist.org/packages/laravel/homestead"><img src="https://poser.pugx.org/laravel/homestead/license.svg" alt="License"></a>
 </p>
 
-## Introduction
+# Introduction
 
 Laravel Homestead is an official, pre-packaged Vagrant box that provides you a wonderful development environment without requiring you to install PHP, a web server, and any other server software on your local machine. No more worrying about messing up your operating system! Vagrant boxes are completely disposable. If something goes wrong, you can destroy and re-create the box in minutes!
 
@@ -15,26 +15,27 @@ Homestead runs on any Windows, Mac, or Linux system, and includes the Nginx web 
 
 Official documentation [is located here](https://laravel.com/docs/homestead).
 
-## Installation Instructions:
+# Installation Instructions:
 
-### Prerequisites: (PLEASE DOUBLE-CHECK EACH OF THESE)
+## Prerequisites: (PLEASE DOUBLE-CHECK EACH OF THESE)
 
 These applications should be installed and available in your terminal's $PATH
 
 - [NPM](https://www.npmjs.com/) - `brew install node`
 - [Yarn](https://yarnpkg.com/) - `brew install yarn`
+- [Composer](https://getcomposer.org/) - `brew install composer`
 - [Vagrant](https://www.vagrantup.com/) - `brew cask install vagrant` ([Vagrant Manager](http://vagrantmanager.com/) is also nice to have but is optional - `brew cask install vagrant-manager`)
 - [VirtualBox](https://www.virtualbox.org/) - `brew cask install virtualbox`
 
 Also make sure that...
 
-- You have the HunkWare API and the Frontend cloned locally somewhere (You will need the absolute paths to them later)
+- You have the HunkWare API and the HunkWare Frontend cloned locally somewhere (You will need the absolute paths to them later)
 - You have at least 1 existing ssh key pair (If not you will need to generate it) - [Click here for how to create SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
 - You have run `composer install` for both the API and Frontend repos
-- After you install NPM, Yarn, Vagrant, VirtualBox you restart any open terminal windows so they will be able to use the new commands.
-- You have Database credentials.
+- After you install NPM, Yarn, Composer, Vagrant, VirtualBox you restart any open terminal windows so they will be able to use the new commands.
+- You have at least testing-environment database credentials.
 
-#### Step 1: Install Vagrant Host Updater
+## Step 1: Install Vagrant Host Updater
 
 This will make it so you don't need to manually update your `/etc/hosts` file every time you update your `Homestead.yaml` file.
 
@@ -46,7 +47,7 @@ vagrant plugin install vagrant-hostsupdater
 
 
 
-#### Step 2: Create the initial VM 
+## Step 2: Create the initial VM 
 
 This command will automatically download and deploy the correct VM image.
 
@@ -58,7 +59,7 @@ vagrant box add laravel/homestead --provider virtualbox
 
 
 
-#### Step 3: Clone the CHHJ Homestead Repo
+## Step 3: Clone the CHHJ Homestead Repo
 
 It is recommend to keep this repo wherever you keep your other CHHJ repos.
 
@@ -69,7 +70,7 @@ cd homestead
 
 
 
-#### Step 4: Initialize The Repo
+## Step 4: Initialize The Repo
 
 **NOTICE:** The rest of these steps assume you are in the homestead repo root directory. You may experience issues if you are not cd'd there. 
 
@@ -85,11 +86,11 @@ init.bat
 
 
 
-#### Step 5: Configure Homestead
+## Step 5: Configure Homestead
 
 Open the `Homestead.yaml` file and customize the "settings" section to your machine. It should look something like this:
 
-**NOTICE:** Please do not add tailing slashes to any of the paths in you `Homestead.yaml` file, as they may cause issues. 
+**NOTICE:** Please do not add any trailing slashes to any of the paths in your `Homestead.yaml` file, as they may cause issues. 
 
 ![Settings Example](https://i.imgur.com/veCiOCy.png) 
 
@@ -97,7 +98,7 @@ Open the `Homestead.yaml` file and customize the "settings" section to your mach
 
 
 
-#### Step 6: First VM Deploy
+## Step 6: First VM Deploy
 
 This will start the VM.
 
@@ -109,7 +110,7 @@ vagrant up
 
 
 
-#### Step 7: Trust The Root CA Certificate 
+## Step 7: Trust The Root CA Certificate 
 
 This will allow you to use SSL/HTTPS when making requests.
 
@@ -149,7 +150,7 @@ Sometimes Google Chrome can have issues with new certificates, so it is best at 
 
 
 
-#### Step 8: Test Your New Environment!
+## Step 8: Test Your New Environment!
 
 Going to both of these addresses in you browser should reveal any issues or show that you have done everything correctly:
 
