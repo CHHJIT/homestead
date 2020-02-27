@@ -1,33 +1,90 @@
 ---
-ip: "192.168.10.10"
-memory: 2048
-cpus: 2
+###########################################################################
+# HOMESTEAD CONFIGURATION FILE                                            #
+# ----------------------------                                            #
+# Each time you edit this file you will need to run                       #
+# "vagrant reload --provision" to apply the changes.                      #
+###########################################################################
+
+
+# Theses settings are going to be specific to you and your machine
+settings:
+  - &devUsername "YOUR DESIRED USERNAME"
+  - &localFrontendPath "/var/www/hunkware/legacy-frontend"
+  - &localApiPath "/var/www/hunkware/api"
+  - &dbUserName "YOUR DB USERNAME"
+  - &dbBase64Password "YOUR BASE64 ENCODED DB PASSWORD"
+  - &dbHost "hunkware-testing.cexwhzr4xmtw.us-east-1.rds.amazonaws.com" # Change this if you want to use your local DB
+  - &sshKeyFile "~/.ssh/id_rsa.pub"
+  - &sshKeyId "~/.ssh/id_rsa" # this should be the same as *sshKeyFile except without the ".pub"
+
+# Theses settings will generally work for everyone. You probably will never
+# NEED to change these, but the are here if you want to.
+advancedSettings:
+  - &cpus "1"
+  - &ram "512" # Below 512 starts to take MUCH LONGER to deploy VMs
+  - &ip "10.100.100.10"
+  - &phpVersion "7.0"
+  - &vmProjectsPath "/home/vagrant/projects"
+  - &frontendDomain "hunkware-frontend.test"
+  - &apiDomain "hunkware-api.test"
+  - &vmFrontendPath "/home/vagrant/projects/hunkware-frontend" # Must be a subdirectory of *vmProjectsPath
+  - &vmApiPath "/home/vagrant/projects/hunkware-api" # Must be a subdirectory of *vmProjectsPath
+
+
+
+
+###########################################################################
+# NOTICE:                                                                 #
+# The configuration below this line will probably never change. Please    #
+# consult the documentation for Laravel Homestead prior to changing it.   #
+###########################################################################
+
+# Configure VM Specs
+ip: *ip
+memory: *ram
+cpus: *cpus
 provider: virtualbox
+ssl: true
 
-authorize: ~/.ssh/id_rsa.pub
+# This will be automatically transferred to the VM
+authorize: *sshKeyFile
 
+# Local SSH keys
 keys:
-    - ~/.ssh/id_rsa
+  - *sshKeyId
 
+# Mount local directories in the VM
 folders:
-    - map: ~/code
-      to: /home/vagrant/code
+  - map: *localFrontendPath # Local Directory
+    to: *vmFrontendPath # VM Directory
+  - map: *localApiPath # Local Directory
+    to: *vmApiPath # VM Directory
 
+# Sites hosted on the VM (Mapped locally)
 sites:
-    - map: homestead.test
-      to: /home/vagrant/code/public
+  - map: *frontendDomain # Local-only domain
+    to: *vmProjectsPath # VM Directory (Frontend needs to be hosted in any subdirectory)
+    php: *phpVersion # PHP Version
+    type: "chhj-hunkware-frontend" # Custom Nginx Config
+  - map: *apiDomain # Local-only domain
+    to: *vmApiPath # VM Directory
+    php: *phpVersion # PHP Version
+    type: "chhj-hunkware-api" # Custom Nginx Config
 
-databases:
-    - homestead
+variables:
+  - key: FRONTEND_PATH
+    value: *vmFrontendPath
+  - key: BACKEND_PATH
+    value: *vmApiPath
+  - key: DB_HOST
+    value: *dbHost
+  - key: DB_USERNAME
+    value: *dbUserName
+  - key: DB_BASE64_PASSWORD
+    value: *dbBase64Password
+  - key: DEV_USERNAME
+    value: *devUsername
 
-features:
-    - mariadb: false
-    - ohmyzsh: false
-    - webdriver: false
-
-# ports:
-#     - send: 50000
-#       to: 5000
-#     - send: 7777
-#       to: 777
-#       protocol: udp
+# Command to copy root certificate
+# vagrant ssh -c "sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt" > ./certs/ca.homestead.crt

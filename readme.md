@@ -17,25 +17,141 @@ Official documentation [is located here](https://laravel.com/docs/homestead).
 
 ## Installation Instructions:
 
-### Prerequisites:
+### Prerequisites: (PLEASE DOUBLE-CHECK EACH OF THESE)
 
 These applications should be installed and available in your terminal's $PATH
 
-- NPM &amp; Yarn
-- Vagrant
-- Virtual Box
+- [NPM](https://www.npmjs.com/) - `brew install node`
+- [Yarn](https://yarnpkg.com/) - `brew install yarn`
+- [Vagrant](https://www.vagrantup.com/) - `brew cask install vagrant` ([Vagrant Manager](http://vagrantmanager.com/) is also nice to have but is optional - `brew cask install vagrant-manager`)
+- [VirtualBox](https://www.virtualbox.org/) - `brew cask install virtualbox`
 
-### Steps:
+Also make sure that...
 
-1. Run `vagrant plugin install vagrant-hostsupdater` (If the plugin is not already installed)
-1. Run `vagrant box add laravel/homestead`
-2. Run `git clone https://github.com/CHHJIT/homestead.git` (It is recommend to keep this wherever you keep your other CHHJ repos)
-3. Run `cd homestead`
-4. Run `bash init.sh` (or `init.bat` on windows)
-5. Configure the `Homestead.yaml` file
-6. Run `vagrant up`
-7. Run `vagrant ssh -c "sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt" > ./certs/ca.homestead.crt`
-8. Go to the `/certs` directory and double click the `ca.homestead.crt` file to add it to your machine. **MAKE SURE** that the certificate is listed as a trusted certificate. (By default is not trusted)
-9. Check https://hunkware-frontend.test/hunkware-frontend/dashboard-operations
-10. Check https://hunkware-api.test/v1/info
+- You have the HunkWare API and the Frontend cloned locally somewhere (You will need the absolute paths to them later)
+- You have at least 1 existing ssh key pair (If not you will need to generate it) - [Click here for how to create SSH key](https://help.github.com/en/github/authenticating-to-github/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent)
+- You have run `composer install` for both the API and Frontend repos
+- After you install NPM, Yarn, Vagrant, VirtualBox you restart any open terminal windows so they will be able to use the new commands.
+- You have Database credentials.
 
+#### Step 1: Install Vagrant Host Updater
+
+This will make it so you don't need to manually update your `/etc/hosts` file every time you update your `Homestead.yaml` file.
+
+NOTE: This is a global plugin so this command will only ever need to be run once for your machine.
+
+```bash
+vagrant plugin install vagrant-hostsupdater
+```
+
+
+
+#### Step 2: Create the initial VM 
+
+This command will automatically download and deploy the correct VM image.
+
+**WARNING:** Make sure you select "virtualbox" if prompted which application you would like to use for creating the VM.
+
+```bash
+vagrant box add laravel/homestead --provider virtualbox
+```
+
+
+
+#### Step 3: Clone the CHHJ Homestead Repo
+
+It is recommend to keep this repo wherever you keep your other CHHJ repos.
+
+```bash
+git clone https://github.com/CHHJIT/homestead.git
+cd homestead
+```
+
+
+
+#### Step 4: Initialize The Repo
+
+**NOTICE:** The rest of these steps assume you are in the homestead repo root directory. You may experience issues if you are not cd'd there. 
+
+**Mac &amp; Linux:**
+```bash
+bash init.sh
+```
+
+**Windows:**
+```dos
+init.bat
+```
+
+
+
+#### Step 5: Configure Homestead
+
+Open the `Homestead.yaml` file and customize the "settings" section to your machine. It should look something like this:
+
+**NOTICE:** Please do not add tailing slashes to any of the paths in you `Homestead.yaml` file, as they may cause issues. 
+
+![Settings Example](https://i.imgur.com/veCiOCy.png) 
+
+**WARNING:** After you have run `vagrant up` (the next step) every time you update this `Homestead.yaml` file you will need to run `vagrant reload --provision` for your changes to be applied.
+
+
+
+#### Step 6: First VM Deploy
+
+This will start the VM.
+
+**WARNING:** The first time you run this command after a VM has been created it WILL provision the VM with the settings from your `Homestead.yaml` file. HOWEVER, it WILL NOT provision it after the first time. You must run `vagrant reload --provision` to re-provision any VM.
+
+```bash
+vagrant up
+```
+
+
+
+#### Step 7: Trust The Root CA Certificate 
+
+This will allow you to use SSL/HTTPS when making requests.
+
+**NOTICE:** See this page if you have any issues: https://www.eaglepeakweb.com/blog/how-to-enable-ssl-https-tls-laravel-homestead
+
+**Step 7a: Copy &amp; Open The Root CA Certificate**
+
+```bash
+vagrant ssh -c "sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt" > ./certs/ca.homestead.crt && open ./certs/ca.homestead.crt
+```
+
+**Step 7b: Add The Certificate To Your Machine**
+
+![7b](https://i.imgur.com/MNlyNz1.png)
+
+**Step 7c: Find &amp; Open The Root CA Certificate**
+
+Should be named "Homestead homestead Root CA" or similar.
+
+![7c](https://i.imgur.com/kSwS7Q2.png)
+
+**Step 7d: Open the "Trust" Section**
+
+![7d](https://i.imgur.com/pvPdI4U.png)
+
+**Step 7e: Set Everything To "Always Trust"**
+
+![7e](https://i.imgur.com/f1OFT75.png)
+
+**Step 7f: Exit Keychain Access (optional)**
+
+You can now close all of the windows for "Keychain Access"
+
+**Step 7g: Close any open Chrome windows**
+
+Sometimes Google Chrome can have issues with new certificates, so it is best at this point to just close and reopen any open Chrome windows.
+
+
+
+#### Step 8: Test Your New Environment!
+
+Going to both of these addresses in you browser should reveal any issues or show that you have done everything correctly:
+
+- API: (will be JSON) https://hunkware-api.test/v1/info
+- Frontend: (make sure to login) https://hunkware-frontend.test/hunkware-frontend/dashboard-operations
