@@ -85,6 +85,3 @@ variables:
     value: *dbBase64Password
   - key: DEV_USERNAME
     value: *devUsername
-
-# Command to copy root certificate
-# vagrant ssh -c "sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt" > ./certs/ca.homestead.crt
