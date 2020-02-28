@@ -2,8 +2,8 @@
 ###########################################################################
 # HOMESTEAD CONFIGURATION FILE                                            #
 # ----------------------------                                            #
-# Each time you edit this file you will need to run                       #
-# "vagrant reload --provision" to apply the changes.                      #
+# Each time you edit this file you will need to run "yarn vm:update" to   #
+# apply the changes.                                                      #
 ###########################################################################
 
 
