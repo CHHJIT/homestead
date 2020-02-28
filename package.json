@@ -1,0 +1,31 @@
+{
+	"name"            : "chhj-homestead",
+	"description"     : "",
+	"author"          : "College Hunks Hauling Junk & Moving",
+	"scripts"         : {
+		"host:initLinux"          : "bash init.sh",
+		"host:initMac"            : "bash init.sh",
+		"host:initWindows"        : "init.bat",
+		"host:installCertificate" : "yarn run test:sudo && sudo security add-trusted-cert -d -r trustRoot -k \"/Library/Keychains/System.keychain\" \"./certs/ca.homestead.crt\"",
+		"host:removeCertificate"  : "rm ./certs/ca.homestead.crt",
+		"install:certificate"     : "yarn run test:sudo && yarn run vm:copyCertificate && yarn run host:installCertificate && yarn run host:removeCertificate",
+		"install:fresh"           : "yarn install --force && composer install --profile --dev",
+		"install:hostUpdater"     : "vagrant plugin install vagrant-hostsupdater",
+		"install:new"             : "yarn run test:sudo && yarn install && composer install --profile --dev && yarn run install:hostUpdater && yarn run vm:init && yarn run host:initMac",
+		"test:dependencies"       : "check-dependencies --verbose",
+		"test:sudo"               : "echo \"Requesting Sudo\" && sudo echo \"Sudo Granted\"",
+		"update:dependencies"     : "yarn upgrade",
+		"vm:copyCertificate"      : "vagrant ssh -c \"sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt\" > ./certs/ca.homestead.crt",
+		"vm:create"               : "yarn run test:sudo && yarn run vm:start && yarn run install:certificate",
+		"vm:destroy"              : "yarn run test:sudo && vagrant destroy --force",
+		"vm:init"                 : "vagrant box add laravel/homestead --provider virtualbox",
+		"vm:recreate"             : "yarn run vm:destroy && yarn run vm:create",
+		"vm:ssh"                  : "vagrant ssh",
+		"vm:start"                : "vagrant up",
+		"vm:stop"                 : "vagrant suspend",
+		"vm:update"               : "vagrant reload --provision"
+	},
+	"devDependencies" : {
+		"check-dependencies" : "^1.1.0"
+	}
+}
