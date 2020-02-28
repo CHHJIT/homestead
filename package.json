@@ -18,7 +18,7 @@
 		"vm:copyCertificate"      : "vagrant ssh -c \"sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt\" > ./certs/ca.homestead.crt",
 		"vm:create"               : "yarn run test:sudo && yarn run vm:start && yarn run install:certificate",
 		"vm:destroy"              : "yarn run test:sudo && vagrant destroy --force",
-		"vm:init"                 : "vagrant box add laravel/homestead --provider virtualbox",
+		"vm:init"                 : "vagrant box add laravel/homestead --provider virtualbox --force",
 		"vm:recreate"             : "yarn run vm:destroy && yarn run vm:create",
 		"vm:ssh"                  : "vagrant ssh",
 		"vm:start"                : "vagrant up",
