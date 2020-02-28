@@ -11,7 +11,7 @@
 		"install:certificate"     : "yarn run test:sudo && yarn run vm:copyCertificate && yarn run host:installCertificate && yarn run host:removeCertificate",
 		"install:fresh"           : "yarn install --force && composer install --profile --dev",
 		"install:hostUpdater"     : "vagrant plugin install vagrant-hostsupdater",
-		"install:new"             : "yarn run test:sudo && yarn install && composer install --profile --dev && yarn run install:hostUpdater && yarn run vm:init && yarn run host:initMac",
+		"install:new"             : "yarn run test:sudo && yarn install && composer install --profile --dev && yarn run install:hostUpdater && yarn run host:initMac && yarn run vm:init",
 		"test:dependencies"       : "check-dependencies --verbose",
 		"test:sudo"               : "echo \"Requesting Sudo\" && sudo echo \"Sudo Granted\"",
 		"update:dependencies"     : "yarn upgrade",
