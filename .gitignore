@@ -13,3 +13,4 @@
 /vendor
 phpunit.xml
 .DS_Store
+/bin/*.ngrok.sh
