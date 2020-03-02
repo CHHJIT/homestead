@@ -3,21 +3,23 @@
 	"description"     : "",
 	"author"          : "College Hunks Hauling Junk & Moving",
 	"scripts"         : {
-		"host:initLinux"          : "bash init.sh",
-		"host:initMac"            : "bash init.sh",
-		"host:initWindows"        : "init.bat",
+		"host:initRepoLinux"      : "bash init.sh",
+		"host:initRepoMac"        : "bash init.sh",
+		"host:initRepoWindows"    : "init.bat",
 		"host:installCertificate" : "yarn run test:sudo && sudo security add-trusted-cert -d -r trustRoot -k \"/Library/Keychains/System.keychain\" \"./certs/ca.homestead.crt\"",
 		"host:removeCertificate"  : "rm ./certs/ca.homestead.crt",
-		"install:certificate"     : "yarn run test:sudo && yarn run vm:copyCertificate && yarn run host:installCertificate && yarn run host:removeCertificate",
-		"install:fresh"           : "yarn install --force && composer install --profile --dev",
+		"install:certificate"     : "yarn run test:sudo && yarn run vm:downloadCertificate && yarn run host:installCertificate && yarn run host:removeCertificate",
 		"install:hostUpdater"     : "vagrant plugin install vagrant-hostsupdater",
-		"install:new"             : "yarn run test:sudo && yarn install && composer install --profile --dev && yarn run install:hostUpdater && yarn run host:initMac && yarn run vm:init",
-		"test:dependencies"       : "check-dependencies --verbose",
+		"install:newLinux"        : "yarn run test:sudo && yarn install && composer install --profile --dev && yarn run install:hostUpdater && yarn run host:initRepoLinux && yarn run vm:init",
+		"install:newMac"          : "yarn run test:sudo && yarn install && composer install --profile --dev && yarn run install:hostUpdater && yarn run host:initRepoMac && yarn run vm:init",
+		"install:newWindows"      : "yarn run test:sudo && yarn install && composer install --profile --dev && yarn run install:hostUpdater && yarn run host:initRepoWindows && yarn run vm:init",
+		"share:api"               : "source ./bin/api.ngrok.sh",
+		"share:frontend"          : "source ./bin/frontend.ngrok.sh",
+		"test:yarnDependencies"   : "check-dependencies --verbose",
 		"test:sudo"               : "echo \"Requesting Sudo\" && sudo echo \"Sudo Granted\"",
-		"update:dependencies"     : "yarn upgrade",
-		"vm:copyCertificate"      : "vagrant ssh -c \"sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt\" > ./certs/ca.homestead.crt",
 		"vm:create"               : "yarn run test:sudo && yarn run vm:start && yarn run install:certificate",
 		"vm:destroy"              : "yarn run test:sudo && vagrant destroy --force",
+		"vm:downloadCertificate"  : "vagrant ssh -c \"sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt\" > ./certs/ca.homestead.crt",
 		"vm:init"                 : "vagrant box add laravel/homestead --provider virtualbox --force",
 		"vm:recreate"             : "yarn run vm:destroy && yarn run vm:create",
 		"vm:ssh"                  : "vagrant ssh",
@@ -27,5 +29,8 @@
 	},
 	"devDependencies" : {
 		"check-dependencies" : "^1.1.0"
+	},
+	"dependencies"    : {
+		"ngrok" : "^3.2.7"
 	}
 }

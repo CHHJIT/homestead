@@ -58,5 +58,12 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     
     # CHHJ Customizations
     config.hostsupdater.remove_on_suspend = false
+    
+    open('./bin/api.ngrok.sh', 'w') { |f|
+      f.puts "ngrok http --hostname=" + settings['environment']['devUsername'] + "-api-chhj.ngrok.io --host-header rewrite " + settings['environment']['apiDomain'] + ":443"
+    }
+    open('./bin/frontend.ngrok.sh', 'w') { |f|
+      f.puts "ngrok http --hostname=" + settings['environment']['devUsername'] + "-frontend-chhj.ngrok.io --host-header rewrite " + settings['environment']['frontendDomain'] + ":443"
+    }
 end
 
