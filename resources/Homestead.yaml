@@ -8,14 +8,14 @@
 
 aliases:
   # Theses settings are going to be specific to you and your machine
-  - &devUsername "YOUR DESIRED USERNAME"
+  - &devUsername "YOUR DESIRED USERNAME" # This must be usable in a domain name (avoid periods)
   - &localFrontendPath "/absolute/path/to/hunkware/frontend/on/your/machine"
   - &localApiPath "/absolute/path/to/hunkware/api/on/your/machine"
   - &dbUserName "YOUR DB USERNAME"
-  - &dbBase64Password "YOUR BASE64 ENCODED DB PASSWORD"
+  - &dbBase64Password "YOUR BASE64 ENCODED DB PASSWORD" # [IMPORTANT] MAKE SURE THIS PASSWORD IS BASE64 ENCODED!
   - &dbHost "hunkware-testing.cexwhzr4xmtw.us-east-1.rds.amazonaws.com" # Change this to "_gateway" if you want to use your local DB
   - &apiUrl "https://api-testing.chhj.com/rest/v1" # Change to "https://hunkware-api.test/v1" to not require an internet connection. NEVER SET THIS TO PRODUCTION!
-  - &sshKeyFile "~/.ssh/id_rsa.pub"
+  - &sshKeyFile "~/.ssh/id_rsa.pub" # Any *.pub file should work
   - &sshKeyId "~/.ssh/id_rsa" # this should be the same as *sshKeyFile except without the ".pub"
   # The below settings will generally work for everyone. You probably will never
   # NEED to change these, but they are here if you want to.
