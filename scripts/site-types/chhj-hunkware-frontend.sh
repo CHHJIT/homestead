@@ -31,7 +31,7 @@ server {
 
     listen ${3:-80};
     listen ${4:-443} ssl http2;
-    server_name .$1 *frontend-chhj.ngrok.io;
+    server_name .$1 .*frontend\-chhj.ngrok.io;
 
     set \$WEB_ROOT $2;
 
