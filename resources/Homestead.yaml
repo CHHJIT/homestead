@@ -7,7 +7,9 @@
 ###########################################################################
 
 aliases:
-  # Theses settings are going to be specific to you and your machine
+  #########################################################################
+  # Theses settings are going to be specific to you and your machine      #
+  #########################################################################
   - &devUsername "YOUR DESIRED USERNAME" # This must be usable in a domain name (avoid periods)
   - &localFrontendPath "/absolute/path/to/hunkware/frontend/on/your/machine"
   - &localApiPath "/absolute/path/to/hunkware/api/on/your/machine"
@@ -17,8 +19,12 @@ aliases:
   - &apiUrl "https://api-testing.chhj.com/rest/v1" # Change to "https://hunkware-api.test/v1" to not require an internet connection. NEVER SET THIS TO PRODUCTION!
   - &sshKeyFile "~/.ssh/id_rsa.pub" # Any *.pub file should work
   - &sshKeyId "~/.ssh/id_rsa" # this should be the same as *sshKeyFile except without the ".pub"
-  # The below settings will generally work for everyone. You probably will never
-  # NEED to change these, but they are here if you want to.
+  - &ngrokAuthToken "YOUR NGROK TOKEN" # Copy this from here: https://dashboard.ngrok.com/auth
+  #########################################################################
+  # The below settings will generally work for everyone. You probably     #
+  # will never NEED to change these, but they are here if you want to.    #
+  #########################################################################
+  - &loggingEnabled "1"
   - &cpus "1"
   - &ram "512" # Below 512 starts to take MUCH LONGER to deploy VMs
   - &ip "10.100.100.10"
@@ -47,6 +53,8 @@ environment:
   apiUrl: *apiUrl
   sshKeyFile: *sshKeyFile
   sshKeyId: *sshKeyId
+  ngrokAuthToken: *ngrokAuthToken
+  loggingEnabled: *loggingEnabled
   cpus: *cpus 
   ram: *ram
   ip: *ip 
@@ -104,3 +112,5 @@ variables:
     value: *devUsername
   - key: API_URL
     value: *apiUrl
+  - key: LOGGING_ENABLED
+    value: *loggingEnabled
