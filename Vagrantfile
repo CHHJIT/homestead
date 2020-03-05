@@ -71,6 +71,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		"console_ui" => true,
 		"update" => false,
 		"authtoken" => settings['environment']['ngrokAuthToken'],
+		"web_addr" => "localhost:4040",
 		"tunnels" => {
 			"frontend" => {
 				"proto" => "http",
@@ -90,8 +91,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	}
 	File.open("ngrok.yml", "w") { |file|
 		file.write(
-			"# WARNING: This file is auto-generated on each \"yarn vm:update\" - see the Vagrantfile for more details.\n" 
-			+ ngrokConfig.to_yaml
+			"# WARNING: This file is auto-generated on each \"yarn vm:update\" - see the Vagrantfile for more details.\n" + ngrokConfig.to_yaml
 		)
 	}
 	
