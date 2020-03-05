@@ -89,7 +89,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		},
 	}
 	File.open("ngrok.yml", "w") { |file|
-		file.write(ngrokConfig.to_yaml)
+		file.write(
+			"# WARNING: This file is auto-generated on each \"yarn vm:update\" - see the Vagrantfile for more details.\n" 
+			+ ngrokConfig.to_yaml
+		)
 	}
 	
 end
