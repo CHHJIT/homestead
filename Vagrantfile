@@ -71,7 +71,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 		"console_ui" => true,
 		"update" => false,
 		"authtoken" => settings['environment']['ngrokAuthToken'],
-		"web_addr" => "localhost:4040",
+		"web_addr" => "localhost:54321",
 		"tunnels" => {
 			"frontend" => {
 				"proto" => "http",
