@@ -25,10 +25,12 @@
 		"vm:downloadCertificate"    : "vagrant ssh -c \"sudo cat /etc/nginx/ssl/ca.homestead.homestead.crt\" > ./certs/ca.homestead.crt",
 		"vm:init"                   : "vagrant box add laravel/homestead --provider virtualbox --force",
 		"vm:recreate"               : "yarn run vm:destroy && yarn run vm:create",
+		"vm:restart"                : "yarn run vm:stop && yarn run vm:start",
 		"vm:ssh"                    : "vagrant ssh",
 		"vm:start"                  : "vagrant up",
 		"vm:stop"                   : "vagrant suspend",
-		"vm:update"                 : "vagrant reload --provision"
+		"vm:update"                 : "vagrant reload --provision",
+		"vm:upgrade"                 : "yarn run test:sudo && vagrant box update && yarn run vm:recreate"
 	},
 	"devDependencies" : {
 		"check-dependencies" : "^1.1.0"
