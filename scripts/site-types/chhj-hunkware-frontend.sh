@@ -2,26 +2,6 @@
 
 block="\
 map \$uri \$redirect_https {
-    /hunkware/dailyhuddle/huddleboard.php 0;
-    /hunkware/dailyhuddle/topsalesagents.php 0;
-    /hunkware/dailyhuddle/topagentbookingpercent.php 0;
-    /hunkware/dailyhuddle/systemstatus.php 0;
-    /images/TrucksCartoon.png 0;
-    /images/wood-background.jpg 0;
-    /images/sales-background.jpg 0;
-    /images/hunkwareonline.jpg 0;
-    /hunkware/css/bootstrap.min.css 0;
-    /cisco/ciscocheckserviceable.php 0;
-    /cisco/ciscocheckjobs.php 0;
-    /cisco/ciscogetjobdate.php 0;
-    /cisco/ciscochecktracking.php 0;
-    /hunkware/API/ClientCreate.php 0;
-    /hunkware/API/ClientCreate800Junk.php 0;
-    /hunkware/API/ClientCreateHomeAdvisor.php 0;
-    /hunkware/API/ClientCreateiReuse.php 0;
-    /hunkware/API/ClientCreateMobile.php 0;
-    /hunkware/API/ClientCreateMosquitoHunters.php 0;
-    /hunkware/API/ClientCreatePickUpMyDonation.php 0;
     default 1;
 }\
 \
@@ -36,12 +16,12 @@ server {
     set \$WEB_ROOT $2;
 
     root \$WEB_ROOT;
-    
+
     ssl_certificate     /etc/nginx/ssl/$1.crt;
     ssl_certificate_key /etc/nginx/ssl/$1.key;
 
     charset utf-8;
-    
+
     add_header 'Access-Control-Allow-Origin' '*' always;
     add_header 'Access-Control-Allow-Credentials' 'true' always;
     add_header 'Access-Control-Allow-Methods' 'GET,OPTIONS,PUT,PATCH,POST,DELETE,HEAD' always;
@@ -49,7 +29,7 @@ server {
 
     add_header Strict-Transport-Security \"max-age=63072000; includeSubdomains; preload\";
     add_header X-Content-Type-Options nosniff;
-    
+
     if (\$request_method = OPTIONS ) {
         return 200;
     }
@@ -65,7 +45,7 @@ server {
     if (\$redirectflags = 'redirect+https') {
        return 301 https://\$server_name\$request_uri;
     }
-    
+
     location = / {
         return 301 /hunkware-frontend/dashboard-performance;
     }
@@ -99,23 +79,23 @@ server {
     location @extensionless-php {
         rewrite ^(.*)$ \$1.php last;
     }
-    
+
     location /hunkware-new {
         try_files \$uri \$uri.html \$uri/ @extensionless-php;
     }
-    
+
     rewrite ^/api/rest(.*)$ /api/rest/apihandler.php last;
 
     rewrite ^/systino/service.asmx$ /api/rest/v1/listen360/getjobs;
-    
+
     location /hunkware/bookingflow/quotingtool {
         if (-f \$request_filename) {
             break;
         }
-    
+
         rewrite ^/hunkware/bookingflow/quotingtool(.*)$ /hunkware/bookingflow/quotingtool/index.html last;
     }
-    
+
 
     # Enable Gzip compressed.
     gzip on;
@@ -161,7 +141,7 @@ server {
       text/plain
       text/x-component;
     # text/html is always compressed by HttpGzipModule
-    
+
     error_page 404 /50xx.html;
     error_page 500 502 503 504 /50xx.html;
     location = /50xx.html {
